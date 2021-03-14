@@ -13,10 +13,17 @@
                 </li>
             </ul>
 
-            
+            <tbody>
+                @foreach ($todos ?? '' as $todo)
+                <tr>
+                    <th scope="row" class="todo">{{ $todo->todo }}</th>
+                    <td>{{ $todo->deadline->format('n月d日 H:i') }}</td>
+                </tr>
+                
+                <br>
+                @endforeach
+            </tbody>
 
-
-            
 
 
 

@@ -14,10 +14,18 @@ class Todo extends Model
         
     }
 
-
     // use HasFactory;
     protected $fillable = [
         'todo',
         'deadline',
     ];
+
+
+    // ここ追加
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deadline' //追加する
+    ];
+    
 }

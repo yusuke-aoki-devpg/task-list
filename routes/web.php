@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +19,7 @@ Route::get('/', function () {
 });
 
 
-Route::resource('/todos', 'App\Http\Controllers\TodoController');
+
 
 // Auth::routes();
 
@@ -37,6 +38,9 @@ Route::resource('/todos', 'App\Http\Controllers\TodoController');
 Route::group(['middleware' => 'auth'], function() {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// home todos にアクセスしても loginにかえる
+Route::resource('/todos', 'App\Http\Controllers\TodoController');
 
 });
 

@@ -89,5 +89,37 @@
             @yield('content')
         </main>
     </div>
+
+
+    <script>
+
+
+        const obj = @json($todos ?? '');
+
+        // Object.keys(obj).forEach(function(key) {
+        //     console.log(obj[key]);
+        // })
+
+        obj.forEach(function(objs) {
+            // console.log(index)
+
+            var date = objs.toLocaleString()
+            console.log(date);
+
+            console.log(objs.todo)
+            console.log(objs.deadline)
+        })
+
+        
+
+        
+
+
+        
+        // const todos = @json($todos ?? '');
+        // console.log(obj);
+        // console.log(todos[1]);
+
+    </script>
 </body>
 </html>

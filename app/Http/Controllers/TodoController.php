@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use DateTime;
 
 class TodoController extends Controller
 {
@@ -18,11 +19,15 @@ class TodoController extends Controller
     public function index()
     {
         // 期限が近いものから順に表示する、期限がないものは最後に持っていく
-        
         // $todos = Todo::orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->get();
-        $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->get();
+        $today = new DateTime();
+        echo $today->format('Y/m/d H:i');
         
-
+        // nullが先頭にこないように
+        // ->whereDay('deadline', '>=', $today)で過去のタスクは表示しない
+        $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->whereDay('deadline', '>=', $today)->get();
+        
+        // 引き渡し
         return view('todos.index', [
             'todos' => $todos,
         ]);

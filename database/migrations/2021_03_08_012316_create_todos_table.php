@@ -21,13 +21,12 @@ class CreateTodosTable extends Migration
 
             $table->bigIncrements('id');
             $table->text('todo');
-            // nullでも可能
-            $table->date('deadline')->nullable();
+            // deadline  nullでも可能
+            $table->dateTime('deadline')->nullable();
+            // created_at updated_at
             $table->timestamps();
-            // 符合なしにする
+            // 符合なしにする user_id
             $table->integer('user_id')->unsigned();
-
-
             // 外部キーを設定する
             $table->foreign('user_id')->references('id')->on('users');
 
