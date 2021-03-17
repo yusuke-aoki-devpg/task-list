@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Todo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use DateTime;
@@ -26,9 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // return view('home');
 
         $today = new DateTime();
+
         $dtoday = date("Y-m-d");
         $d3DaysLater = date("Y-m-d", strtotime('+ 3 days'));
         $d7DaysLater = date("Y-m-d", strtotime('+ 7 days'));
