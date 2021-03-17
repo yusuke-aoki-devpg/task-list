@@ -29,10 +29,16 @@ class HomeController extends Controller
         // return view('home');
 
         $today = new DateTime();
+        $dtoday = date("Y-m-d");
+        $d3DaysLater = date("Y-m-d", strtotime('+ 3 days'));
+        $d7DaysLater = date("Y-m-d", strtotime('+ 7 days'));
         $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->whereDay('deadline', '>=', $today)->get();
 
         return view('home', [
             'todos' => $todos,
+            'dtoday' => $dtoday,
+            'd3DaysLater' => $d3DaysLater,
+            'd7DaysLater' => $d7DaysLater
         ]);
     }
 }
