@@ -14,20 +14,24 @@
             </ul>
 
             <tbody>
-                @foreach ($todos ?? '' as $todo)
-                <tr>
-                    <th scope="row" class="todo">{{ $todo->todo }}</th>
-                    <td>{{ $todo->deadline->format('n月d日 H:i') }}</td>
-                </tr>
-                
-                <br>
-                @endforeach
             </tbody>
-
-
-
-
         </div>
     </div>
+    <div class="container">
+        <div id="canvasContainer">
+        </div>
+        <div id="popup"></div>
+    </div>
 </div>
+@endsection
+@section('home-js')
+<script>
+        window.taskObj = @json($todos);
+        window.dtoday = @json($dtoday);
+        window.d3DaysLater = @json($d3DaysLater);
+        window.d7DaysLater = @json($d7DaysLater);
+</script>
+<script src="{{ asset('js/home.js') }}" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"></script>
+
 @endsection

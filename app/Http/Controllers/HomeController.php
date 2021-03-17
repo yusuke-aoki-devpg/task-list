@@ -28,21 +28,17 @@ class HomeController extends Controller
     {
 
         $today = new DateTime();
-// テスト----------------------------------------
-        $targetTime = Auth::user()->todos()->select('deadline')->whereDay('deadline', '=', $today)->exists();
 
-        if($targetTime) {
-            echo '存在する！';
-            //現在のユーザーのデータ
-            echo Auth::user();
-            echo Auth::user()->todos()->whereDay('deadline', '>=', $today)->get();
-        }
-
-// Viewに表示する---------------------------------
-        $todos = Auth::user()->todos->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->whereDay('deadline', '>=', $today)->get();
+        $dtoday = date("Y-m-d");
+        $d3DaysLater = date("Y-m-d", strtotime('+ 3 days'));
+        $d7DaysLater = date("Y-m-d", strtotime('+ 7 days'));
+        $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->whereDay('deadline', '>=', $today)->get();
 
         return view('home', [
             'todos' => $todos,
+            'dtoday' => $dtoday,
+            'd3DaysLater' => $d3DaysLater,
+            'd7DaysLater' => $d7DaysLater
         ]);
     }
 }
