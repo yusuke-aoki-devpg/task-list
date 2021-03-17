@@ -2,8 +2,11 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Console\Command;
 use App\Models\User;
+use App\Models\Todo;
+use DateTime;
 //メール送信用ファサード
 use Illuminate\Support\Facades\Mail;
 
@@ -41,16 +44,30 @@ class Batch extends Command
     public function handle()
     {
         //モデルからユーザー情報を取り出して
-        $users = User::all();
-        //メールアドレスで繰り返し
-        foreach ($users as $user) {
-            echo $user['email']."\n";
 
-            Mail::raw("勉強しろや", function($message) use ($user)
-            {
-                $message->to($user->email)->subject('山岡朋樹のGmailから送信');
-            });
+
+        $today = new DateTime();
+        
+        $users = Auth::user();
+        $todos = Auth::user()->todos;
+
+        foreach($users as $user){
+            foreach($todos as $todo){
+                Mail::raw($todo->deadline, function($message) use ($user,$todo){
+
+                    $message->to($user->email)->subject($todo->todo);
+
+                });
+            }
         }
+
+
+
+
+
     }
+
+
+
 }
 

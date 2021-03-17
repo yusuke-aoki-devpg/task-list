@@ -26,8 +26,7 @@ class TodoController extends Controller
         // nullが先頭にこないように
         // ->whereDay('deadline', '>=', $today)で過去のタスクは表示しない
         $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->whereDay('deadline', '>=', $today)->get();
-        
-        // 引き渡し
+
         return view('todos.index', [
             'todos' => $todos,
         ]);
@@ -59,14 +58,6 @@ class TodoController extends Controller
             'newDeadline' => 'nullable|after:"now"',
         ]);
 
-
-        //DBに保存
-        // Todo::create([
-        //     'todo'     => $request->newTodo,
-        //     'deadline' => $request->newDeadline,
-        // ]);
-
-
         //DBに保存
         $todo = new Todo();
 
@@ -74,8 +65,6 @@ class TodoController extends Controller
         $todo->deadline = $request->newDeadline;
         
         Auth::user()->todos()->save($todo);
-
-        // $todo->save();
 
         // リダイレクトする
         return redirect()->route('todos.index');
