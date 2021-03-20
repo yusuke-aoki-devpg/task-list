@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -9,6 +7,7 @@ use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -23,7 +22,7 @@ class TodoController extends Controller
     {
         
         $today = new DateTime();
-
+        
         $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->where('deadline', '>=', $today)->get();
 
         return view('todos.index', [

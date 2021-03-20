@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use App\Models\User;
 use App\Models\Todo;
 use DateTime;
+use Carbon\Carbon;
 //メール送信用ファサード
 use Illuminate\Support\Facades\Mail;
 
@@ -43,13 +44,15 @@ class Batch extends Command
      */
     public function handle()
     {
-        // $todos = Todo::where('deadline', '=', date('Y-m-d H:i:s'),time()-86400)->get();
-        // $today = new DateTime();
+        // バッチ処理の誤差
+        $from = date('Y/m/d H:i:s', strtotime('+1 day -2 second'));
+        $to = date('Y/m/d H:i:s', strtotime('+1 day +2 second'));
 
+        // ループ処理
         for ($i = 1; $i < User::count() + 2; $i++) {
 
             $users = User::where('id', '=', $i)->get();
-            $todos = Todo::where('user_id', '=', $i)->whereDay('deadline', '=', date('Y-m-d H:i:s'),time()-86400)->get();
+            $todos = Todo::where('user_id', '=', $i)->where('deadline', '>', $from)->where('deadline', '<', $to)->get();
 
             foreach ($users as $user) {
                 foreach ($todos as $todo) {
