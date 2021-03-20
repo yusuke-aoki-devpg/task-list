@@ -21,23 +21,9 @@ class TodoController extends Controller
      */
     public function index()
     {
-        // 期限が近いものから順に表示する、期限がないものは最後に持っていく
-        // $todos = Todo::orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->get();
-        $today = new DateTime();
-        echo $today->format('Y/m/d H:i');
-        // -----------------------------------
-
-
-        $users = User::where('id', '=', 1)->get();
-        echo $users;
-
-        $todos = Todo::where('user_id', '=', 1)->whereDay('deadline', '=', $today)->get();
-        echo $todos;
-
-        echo User::count();
         
+        $today = new DateTime();
 
-        // $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->where('deadline', '>=', $today)->get();
         $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->where('deadline', '>=', $today)->get();
 
         return view('todos.index', [

@@ -44,7 +44,7 @@ class Batch extends Command
     public function handle()
     {
         // $todos = Todo::where('deadline', '=', date('Y-m-d H:i:s'),time()-86400)->get();
-        $today = new DateTime();
+        // $today = new DateTime();
 
         for ($i = 1; $i < User::count() + 2; $i++) {
 
