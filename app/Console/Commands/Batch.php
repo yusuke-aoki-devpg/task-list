@@ -43,31 +43,21 @@ class Batch extends Command
      */
     public function handle()
     {
-        //モデルからユーザー情報を取り出して
-
-
+        // $todos = Todo::where('deadline', '=', date('Y-m-d H:i:s'),time()-86400)->get();
         $today = new DateTime();
-        
-        $users = Auth::user();
-        $todos = Auth::user()->todos;
 
-        foreach($users as $user){
-            foreach($todos as $todo){
-                Mail::raw($todo->deadline, function($message) use ($user,$todo){
+        for ($i = 1; $i < User::count() + 2; $i++) {
 
-                    $message->to($user->email)->subject($todo->todo);
+            $users = User::where('id', '=', $i)->get();
+            $todos = Todo::where('user_id', '=', $i)->whereDay('deadline', '=', date('Y-m-d H:i:s'),time()-86400)->get();
 
-                });
+            foreach ($users as $user) {
+                foreach ($todos as $todo) {
+                    Mail::raw($todo->deadline, function ($message) use ($user, $todo) {
+                        $message->to($user->email)->subject($todo->todo);
+                    });
+                }
             }
         }
-
-
-
-
-
     }
-
-
-
 }
-

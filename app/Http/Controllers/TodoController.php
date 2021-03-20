@@ -4,10 +4,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class TodoController extends Controller
 {
@@ -22,14 +25,25 @@ class TodoController extends Controller
         // $todos = Todo::orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->get();
         $today = new DateTime();
         echo $today->format('Y/m/d H:i');
+        // -----------------------------------
+
+
+        $users = User::where('id', '=', 1)->get();
+        echo $users;
+
+        $todos = Todo::where('user_id', '=', 1)->whereDay('deadline', '=', $today)->get();
+        echo $todos;
+
+        echo User::count();
         
-        // nullが先頭にこないように
-        // ->whereDay('deadline', '>=', $today)で過去のタスクは表示しない
-        $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->whereDay('deadline', '>=', $today)->get();
+
+        // $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->where('deadline', '>=', $today)->get();
+        $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->where('deadline', '>=', $today)->get();
 
         return view('todos.index', [
             'todos' => $todos,
         ]);
+
     }
 
     /**
