@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     {
 // 下のコメントアウトを外すと１分おきにメールが送られる----------------------------------------------------------------------
 
-        // $schedule->command('command:test')->everyMinute();
+        $schedule->command('command:test')->everyMinute();
     }
 
     /**

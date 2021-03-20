@@ -18,14 +18,10 @@ class TodoController extends Controller
      */
     public function index()
     {
-        // 期限が近いものから順に表示する、期限がないものは最後に持っていく
-        // $todos = Todo::orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->get();
-        $today = new DateTime();
-        echo $today->format('Y/m/d H:i');
         
-        // nullが先頭にこないように
-        // ->whereDay('deadline', '>=', $today)で過去のタスクは表示しない
-        $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->whereDay('deadline', '>=', $today)->get();
+        $today = new DateTime();
+
+        $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->where('deadline', '>=', $today)->get();
 
         return view('todos.index', [
             'todos' => $todos,
