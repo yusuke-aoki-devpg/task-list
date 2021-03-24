@@ -18,17 +18,26 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        
         $today = new DateTime();
-        
-        $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->where('deadline', '>=', $today)->get();
+
+        $todos = Todo::where('user_id', $request->user()->id)
+            ->orderByRaw('`deadline` IS NULL ASC')
+            ->orderBy('deadline')
+            ->where('deadline', '>=', $today)
+            ->get();
+
+        // $todos = Auth::user()
+        //     ->todos()
+        //     ->orderByRaw('`deadline` IS NULL ASC')
+        //     ->orderBy('deadline')
+        //     ->where('deadline', '>=', $today)
+        //     ->get();
 
         return view('todos.index', [
             'todos' => $todos,
         ]);
-
     }
 
     /**
@@ -54,16 +63,22 @@ class TodoController extends Controller
         // バリデーションチェック
         $request->validate([
             'newTodo'     => 'required|max:100',
-            'newDeadline' => 'nullable|after:"now"',
+            'newDeadline' => 'required|after:"now"',
+            // nullableにしていた
         ]);
 
-        //DBに保存
-        $todo = new Todo();
+        // 
 
-        $todo->todo     = $request->newTodo;
-        $todo->deadline = $request->newDeadline;
-        
-        Auth::user()->todos()->save($todo);
+        // DBに保存
+        $request->user()->todos()->create([
+            'todo' => $request->newTodo,
+            'deadline' => $request->newDeadline,
+        ]);
+
+        // $todo = new Todo();
+        // $todo->todo     = $request->newTodo;
+        // $todo->deadline = $request->newDeadline;
+        // Auth::user()->todos()->save($todo);
 
         // リダイレクトする
         return redirect()->route('todos.index');
@@ -90,7 +105,7 @@ class TodoController extends Controller
     {
         //
         $todo = Todo::find($id);
-        
+
         return view('todos.edit', [
             'todo' => $todo,
         ]);

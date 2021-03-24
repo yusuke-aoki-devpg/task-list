@@ -44,23 +44,23 @@ class Batch extends Command
      */
     public function handle()
     {
-        // バッチ処理の誤差
-        $from = date('Y/m/d H:i:s', strtotime('+1 day -2 second'));
-        $to = date('Y/m/d H:i:s', strtotime('+1 day +2 second'));
+       // バッチ処理の誤差
+       $from = date('Y/m/d H:i:s', strtotime('+30minutes -5 seconds'));
+       $to = date('Y/m/d H:i:s', strtotime('+30minutes +5 seconds'));
 
-        // ループ処理
-        for ($i = 1; $i < User::count() + 2; $i++) {
+       // ループ処理
+       for ($i = 1; $i < User::count() + 2; $i++) {
 
-            $users = User::where('id', '=', $i)->get();
-            $todos = Todo::where('user_id', '=', $i)->where('deadline', '>', $from)->where('deadline', '<', $to)->get();
+           $users = User::where('id', $i)->get();
+           $todos = Todo::where('user_id', $i)->where('deadline', '>', $from)->where('deadline', '<', $to)->get();
 
-            foreach ($users as $user) {
-                foreach ($todos as $todo) {
-                    Mail::raw($todo->deadline, function ($message) use ($user, $todo) {
-                        $message->to($user->email)->subject($todo->todo);
-                    });
-                }
-            }
-        }
+           foreach ($users as $user) {
+               foreach ($todos as $todo) {
+                   Mail::raw($todo->deadline, function ($message) use ($user, $todo) {
+                       $message->to($user->email)->subject($todo->todo);
+                   });
+               }
+           }
+       }
     }
 }

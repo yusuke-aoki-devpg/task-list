@@ -74,7 +74,7 @@
                     <th scope="row" class="todo">{{ $todo->todo }}</th>
                     <!-- 表示の仕方を変える ->format('Y/m/d H:i') ------nは03→3---------------------------------------->
                     
-                    <td class="" value="deadline">{{ $todo->deadline->format('n月d日 H:i') }}</td>
+                    <td class="" value="deadline">{{ $todo->deadline->format('n月j日 G時i分') }}</td>
                     <td><a href="{{ route('todos.edit', $todo->id) }}" class="btn btn-primary">編集</a></td>
                     {!! Form::open(['route' => ['todos.destroy', $todo->id], 'method' => 'POST']) !!}
                     {{ csrf_field() }}
