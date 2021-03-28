@@ -1,34 +1,44 @@
-<!DOCTYPE html>
-<html lang="ja">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Todoリスト</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/css/bootstrap-material-datetimepicker.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/ja.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/js/bootstrap-material-datetimepicker.min.js"></script>
-</head>
+@section('sub-nav-left')
+<div class="my-1 mobile-only" style="font-size: 1em;">
+    <a href="#" class="btn-outline-light p-2"><i class="fas fa-plus-circle"></i> </a>   
+</div>
+@endsection
+
 
 <body>
     <div class="container mt-5">
         
             <div>
                 <h1 class="text-center mb-5">タスクのリスト表示</h1>
+
+@section('content')
+    <div class="container mt-3">
+        <!-- フォーム -------------------------------------------------------->
+        <div class="container mb-4 pc-only">
+            <!-- {!! Form::open(['route' => 'todos.store', 'method' => 'POST']) !!}
+            {{ csrf_field() }} -->
+
+            <form action="{{ route('todos.store') }}" method="post">
+            {{ csrf_field() }}
+            <div class="row">
+        
+            <input type="text" class="form-control col-5 mr-5" name="newTodo">
+            <input type="text" class="form-control col-3 mr-3" id="date-time" placeholder="日時を選択してください" name="newDeadline">
+            <input type="submit" class="btn btn-outline-dark" value="新規追加">
+
+                <!-- {{ Form::text('newTodo', null, ['class' => 'form-control col-5 mr-5']) }}
+                {{ Form::date('newDeadline', null, ['class' => 'mr-5']) }}
+                {{ Form::submit('新規追加', ['class' => 'btn btn-primary']) }} -->
+
             </div>
 
         <table class="table row_table">
             <thead>
                 <tr>
-                    <th scope="col" style="width: 40%">やること</th>
-                    <th scope="col">期限</th>
+                    <th scope="col" style="width: 50%">やること</th>
+                    <th scope="col" class="pc-only">期限</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
@@ -36,8 +46,9 @@
             <tbody>
                 @foreach ($todos as $todo)
                 <tr>
-                    <th scope="row" class="todo">{{ $todo->todo }}</th>
+                    <td class="todo pc-only">{{ $todo->todo }}</td>
                     <!-- 表示の仕方を変える ->format('Y/m/d H:i') ------nは03→3---------------------------------------->
+
                     <td class="" value="deadline">{{ $todo->deadline->format('n月j日 G時i分') }}</td>
                     <td class="option"><a href="{{ route('todos.edit', $todo->id) }}" class="btn btn-primary">編集</a>
                 
@@ -45,6 +56,21 @@
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
                     {{ Form::submit('削除', ['class' => 'btn btn-danger']) }}
+
+                    <td class="pc-only" value="deadline">{{ $todo->deadline->format('n月d日 H:i') }}</td>
+
+                    <td class="mobile-only">
+                        <span>{{ $todo->todo }}</span>
+                        <br >
+                        <small value="deadline">{{ $todo->deadline->format('n月d日 H:i') }}</small>
+                    </td>
+
+                    <td><a href="{{ route('todos.edit', $todo->id) }}" class="btn btn-outline-dark">編集</a></td>
+                    {!! Form::open(['route' => ['todos.destroy', $todo->id], 'method' => 'POST']) !!}
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                    <td>{{ Form::submit('削除', ['class' => 'btn btn-outline-danger']) }}</td>
+
                     {!! Form::close() !!}
                     </td>
                     
@@ -53,9 +79,37 @@
             </tbody>
         </table>
 
+
         <a href="{{ url('/home') }}" class="btn btn-primary">ホーム画面へ</a>
+
+        <div id="mytest"></div>
+
     </div>
+    @endsection
+
 
 </body>
 </html>
+
+
+    @section('extra-js')
+    <script>        
+        $(function (){
+        $('#date-time').bootstrapMaterialDatePicker({
+            format: 'YYYY-MM-DD HH:mm',
+            nowButton: true,
+            clearButton: true,
+            lang: 'ja',
+            cancelText: '×',
+            okText: '決定',
+            clearText: 'クリアー',
+            nowText: '現在'
+        });
+    });
+    const todos = @json($todos);
+    console.log(todos);
+    console.log(todos[1]);
+
+    </script>
+@endsection
 

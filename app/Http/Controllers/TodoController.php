@@ -20,6 +20,7 @@ class TodoController extends Controller
      */
     public function index(Request $request)
     {
+
         $today = new DateTime();
 
         $todos = Todo::where('user_id', $request->user()->id)
@@ -27,6 +28,7 @@ class TodoController extends Controller
             ->orderBy('deadline')
             ->where('deadline', '>=', $today)
             ->get();
+     
 
         return view('todos.index', [
             'todos' => $todos,
@@ -62,8 +64,7 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        //ここでタスクを新規追加する------------------------------------------------------------------------
-
+    
         // バリデーションチェック
         $request->validate([
             'newTodo'     => 'required|max:100',

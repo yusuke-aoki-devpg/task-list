@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -32,6 +33,44 @@
                     <div class="col-lg-6 mx-auto d-block">
                         <label for="" class="mb-4">タスクを編集</label>
                         <input type="text" class="form-control mb-4" name="updateTodo" value="{{ $todo->todo }}">
+
+@extends('layouts.app')
+
+@section('content')
+    <div class="container mt-3">
+        <h1 class="text-center">タスクリスト - 編集</h1>
+    </div>
+    <div class="container mt-3">
+        <div class="container mb-4">
+            <!-- フォーム -------------------------------------------------------->
+            {!! Form::open(['route' => ['todos.update', $todo->id], 'method' => 'POST']) !!}
+
+<!-- ここ修正 ----------------------------------------------------------------------------------------------->
+            <!-- <form action="{{ route('todos.update', $todo->id) }}" method="post"> -->
+            {{ csrf_field() }}
+            {{ method_field('PUT') }}
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-md-8">
+                            <label for="newTodo">タスク</label>
+                            <input type="text" class="form-control" name="newTodo">
+                        </div> 
+                    </div>
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-md-8">
+                            <label for="newDeadline">Deadline</label>
+                            <input type="text" class="form-control" id="date-time" placeholder="日時を選択してください" name="newDeadline">
+                        </div>                          
+                    </div>      
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-md-8">
+                            <input type="submit" class="btn btn-outline-dark" value="Todoリストを更新">
+    
+                            <!-- {{ Form::text('updateTodo', $todo->todo, ['class' => 'form-control col-7 mr-4']) }}
+                            {{ Form::date('updateDeadline', $todo->deadline, ['class' => 'mr-4']) }}
+                            {{ Form::submit('Todoリストを更新', ['class' => 'btn btn-primary mr-3']) }} -->
+                            <a href="{{ route('todos.index') }}" class="btn btn-outline-dark">戻る</a>        
+                        </div>                  
+
                     </div>
 
                     @if ($errors->has('updateTodo'))
@@ -47,12 +86,18 @@
                     <p class="alert alert-danger col-lg-6 mx-auto d-block">{{ $errors->first('updateDeadline') }}</p>
                     @endif
 
+
                     <div class="col-lg-6 mx-auto d-block">
                         <label for=""></label>
                         <input type="submit" class="btn btn-primary" value="Todoリストを更新">
                     </div>
 
                     <a href="{{ route('home') }}" class="btn btn-danger">戻る</a>
+
+    @endsection
+
+    @section('extra-js')
+
 
                 </div>
             </form>
@@ -73,5 +118,4 @@
             });
         });
     </script>
-</body>
-</html>
+@endsection

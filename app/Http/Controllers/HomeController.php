@@ -33,6 +33,7 @@ class HomeController extends Controller
         $d7DaysLater = date("Y-m-d", strtotime('+ 7 days'));
         $todos = Todo::where('user_id', $request->user()->id)->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->where('deadline', '>=', $today)->get();
 
+
         return view('home', [
             'todos' => $todos,
             'dtoday' => $dtoday,
@@ -40,4 +41,5 @@ class HomeController extends Controller
             'd7DaysLater' => $d7DaysLater
         ]);
     }
+
 }

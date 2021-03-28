@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -12,15 +13,23 @@
     </title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/ja.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/js/bootstrap-material-datetimepicker.min.js"></script>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- Styles -->
     <!-- <link rel="stylesheet" href="{{ mix('/css/app.css') }}"> -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/css/bootstrap-material-datetimepicker.min.css">
+
 </head>
 <body>
     <div id="app">
@@ -94,11 +103,28 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <div id="sub-nav-bar" class="nav bg-dark">
+            <div class="container d-flex flex-row justify-content-between"> 
+                <div class="d-flex flex-row justify-content-start"> 
+                    <div class="my-1" style="font-size: 1em;">
+                        <a href="{{ route('home') }}" class="btn-outline-light p-2"><i class="fas fa-home"></i> <span class="pc-only">ホーム<span> </a>    
+                    </div>
+                    <div class="my-1" style="font-size: 1em;">
+                        <a href="{{ route('todos.index') }}" class="btn-outline-light p-2"><i class="fas fa-list-alt"></i> <span class="pc-only">一覧<span> </a>    
+                    </div>
+                    @yield('sub-nav-left')
+                </div>  
+                <div class="d-flex flex-row justify-content-end align-items-center"> 
+                    @yield('sub-nav-right')
+                </div> 
+            </div>    
+        </div>
+        <main>
             @yield('content')
         </main>
     </div>
-        @yield('home-js')
 
+        @yield('extra-js')
+   
 </body>
 </html>
