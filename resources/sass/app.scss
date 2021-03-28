@@ -13,3 +13,74 @@
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/brands';
+
+
+body {
+  overflow: hidden;    
+}
+
+ul{
+    padding-left: 0 !important;
+    list-style: none;
+}
+
+.form-group{
+    margin: 50px;
+}
+  
+.deadline{
+    background-color: #f6993f !important;
+}
+
+.popup{
+    position: absolute;
+    border-radius: 15px;
+    background-color: #717177;
+    width: 110px;
+    text-align: center;
+    z-index: 1;
+    -webkit-animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s;
+    z-index: 1;
+}
+
+.option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#canvas {
+    -webkit-animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s;
+}
+
+.mobile-only {
+    display:none;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+
+@media screen and (max-width: 600px) {
+    .mobile-only {
+        display: block;
+    }
+
+    .pc-only {
+        display:none;
+    }
+}
+  
+  
+
+
+  

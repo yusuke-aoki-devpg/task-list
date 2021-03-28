@@ -8,69 +8,6 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
-.form-group{
-  margin: 50px;
-}
-
-ul{
-  padding-left: 0 !important;
-  list-style: none;
-}
-
-.menu-icon .accordion {
-	width: 30px;
-	height: 30px;
-	margin: 0;
-}
-.menu-icon .accordion a {
-	display: block;
-	height: 30px;
-	text-align: center;
-	line-height:0; 
-  position: relative;
-  /* ここ変える */
-  left: 300px;
-}
-
-.menu-icon .accordion a:before{
-	display: block;
-	content: "";
-	position: absolute;
-	top:0; 
-	right:0;
-	bottom:0;
-	left:0;
-	margin:auto;
-	width: 30px;
-	height: 2px;
-	background-color: #40180A;
-	transition: .2s;
-	transform: rotate(90deg);
-	-webkit-transform: rotate(90deg);
-}
-
-.menu-icon .accordion a:after{
-	display: block;
-	content: "";
-	position: absolute;
-	top: 0; 
-	right: 0;
-	bottom: 0;
-	left: 0;
-	margin: auto;
-	width: 30px;
-	height: 2px; 
-	background-color: #40180A;
-	transition: .3s;
-}
-
-
-
-.deadline{
-  background-color: #f6993f !important;
-}
-
- /* 追記！----------------------------------------------------------------- */
 :root {
   --blue: #3490dc;
   --indigo: #6574cd;
@@ -17147,6 +17084,82 @@ readers do not read off random characters that represent icons */
 .fab {
   font-family: "Font Awesome 5 Brands";
   font-weight: 400;
+}
+
+body {
+  overflow: hidden;
+}
+
+ul {
+  padding-left: 0 !important;
+  list-style: none;
+}
+
+.form-group {
+  margin: 50px;
+}
+
+.deadline {
+  background-color: #f6993f !important;
+}
+
+.popup {
+  position: absolute;
+  border-radius: 15px;
+  background-color: #717177;
+  width: 110px;
+  text-align: center;
+  z-index: 1;
+  -webkit-animation: fadeIn 0.5s;
+  animation: fadeIn 0.5s;
+  z-index: 1;
+}
+
+.option {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#canvas {
+  -webkit-animation: fadeIn 0.5s;
+  animation: fadeIn 0.5s;
+}
+
+.mobile-only {
+  display: none;
+}
+
+/* Add animation (fade in the popup) */
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .mobile-only {
+    display: block;
+  }
+
+  .pc-only {
+    display: none;
+  }
 }
 
 

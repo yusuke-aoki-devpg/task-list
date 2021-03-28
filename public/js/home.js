@@ -3,6 +3,8 @@ let circles = [];
 let clicked = false;
 let clickedX;
 let clickedY;
+let drawNum;
+
 
 //get date only
 function formatDate(d){  
@@ -18,6 +20,13 @@ function formatDate(d){
     return [year, month, day].join('-');
 }
 
+function formatDateJP(d){  
+    var month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate()
+
+    return month + "月" + day + "日";
+}
+
 //get time
 function formatTime(d){  
     var minutes = '' + d.getMinutes(),
@@ -29,7 +38,15 @@ function formatTime(d){
     if (secounds.length < 2) 
         secounds = '0' + secounds;
 
-    return [hours, minutes, secounds].join(':');
+    return [hours, minutes].join(':');
+}
+
+function shortenStr(str){
+    if(str.length >= 5){
+        return str.substring(0, 5) + "...";
+    }else {
+        return str;
+    }
 }
 
 function setup(){
@@ -42,18 +59,17 @@ function setup(){
     let protection = 0;
 
     for(var i = 0; i < taskObj.length; i++){ 
-        let taskdate = formatDate(new Date(taskObj[i].deadline));    
+        let taskdate = formatDate(new Date(taskObj[i].deadline));   
+        let taskdatejp = formatDateJP(new Date(taskObj[i].deadline)); 
         let tasktime = formatTime(new Date(taskObj[i].deadline));
-        
-        console.log("taskdate", taskdate);
-        console.log("tasktime", tasktime);
+        let newStr = shortenStr(taskObj[i].todo);
 
         let circle = {
-            x: random(70, width - 70),
-            y: random(70, height - 70),
+            x: random(100, width - 100),
+            y: random(100, height - 100),
             r: taskdate === dtoday ? 
-                    65 : taskdate > dtoday && taskdate <= d3DaysLater ? 
-                        48 : 28,
+                    80 : taskdate > dtoday && taskdate <= d3DaysLater ? 
+                        65 : 48,
             circleColor: taskdate === dtoday ? 
                 color(240,119,110) : taskdate > dtoday && taskdate <= d3DaysLater ? 
                     color(255,242,105) : color(170,250,170),
@@ -61,17 +77,17 @@ function setup(){
                 "#FFF" : taskdate > dtoday && taskdate <= d3DaysLater ? 
                     "#000" : "#000",
             textsize: taskdate === dtoday ? 
-                    18 : taskdate > dtoday && taskdate <= d3DaysLater ? 
-                        12 : 8,
+                    24 : taskdate > dtoday && taskdate <= d3DaysLater ? 
+                        18 : 12,
             textsizesmall: taskdate === dtoday ? 
-            12 : taskdate > dtoday && taskdate <= d3DaysLater ? 
-                10 : 6,
+            18 : taskdate > dtoday && taskdate <= d3DaysLater ? 
+                12 : 10,
     
             textspace: taskdate === dtoday ? 
                     18 : taskdate > dtoday && taskdate <= d3DaysLater ? 
                         12 : 10,
-            title: taskObj[i].todo,
-            date: taskdate,
+            title: newStr,
+            date: taskdatejp,
             time: tasktime,
             id: taskObj[i].id
         }
@@ -99,14 +115,20 @@ function setup(){
         //limit for retry, prevent unfinish checking
         protection++;
         if(protection > 10000){
-            console.log(i);
-            break;
+            break;            
         }
+
     }         
 }
 
 //draw circles
 function draw(){
+    if(circles.length < taskObj.length){
+        document.getElementById('msgContainer').innerText = "全てのタスク表示できません";
+    }else {
+        document.getElementById('msgContainer').innerText = "";
+
+    }
     background(250,250,250,100);
 
     circles.forEach(function(cir){
@@ -130,7 +152,6 @@ function draw(){
         text(line2, cir.x, cir.y);      
 
         var d = dist(cir.x, cir.y, mouseX, mouseY);
-        //mouseOver(d, cir.r, cir.x, cir.y, cir.textsize, cir.space, lines);
     });
 }
 
@@ -138,7 +159,9 @@ function draw(){
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight-100);
     circles = [];
-    document.getElementById('popup').style.cssText = 'display:none';
+    document.querySelectorAll('.popup').forEach(function (popup){
+        popup.style.display = 'none';
+    });
     setup();
 }
 
@@ -147,8 +170,8 @@ function mouseClicked() {
     circles.forEach(function(cir){
         var d = dist(cir.x, cir.y, mouseX, mouseY);
         if(d < cir.r){
-            clickedX = mouseX + 30 + "px";
-            clickedY = mouseY + 30 + "px";
+            clickedX = mouseX + "px";
+            clickedY = mouseY + 70 + "px";
             showMsg(cir.title, clickedX, clickedY, cir.id);
         }
     });
@@ -156,27 +179,27 @@ function mouseClicked() {
 
 //show popup when click inside circles
 function showMsg(data, left, top, id){
-    document.getElementById('popup').style.cssText = 'display:block';
-    document.getElementById('popup').innerHTML = `
-        <div class="popuptext">
-            <h4>${data}</h4>
-        </div>        
-        <div class="popuptext option">
-            <div><a href="#">編集</a></div>　
-            <div><a href="#">削除</a></div>
-        </div>
-    `;
-    document.getElementById('popup').style.left = left;
-    document.getElementById('popup').style.top = top;
+    document.getElementById('popup'+id).style.display = 'initial';
+    document.getElementById('popup'+id).style.left = left;
+    document.getElementById('popup'+id).style.top = top;
 }
 
 //Hide popup when click anywhere outside popup div
-document.body.addEventListener('click', function(e){
-    document.getElementById('popup').style.cssText = 'display:none';
+document.body.addEventListener('click', function(){
+    document.querySelectorAll('.popup').forEach(function (popup){
+        popup.style.display = 'none';
+    })
 })
 
+
 //nothing happen when click inside popup div
-document.getElementById('popup').addEventListener('click', function(e){
-    e.stopPropagation();
-})  
+document.querySelectorAll('.popup').forEach(function (popup) {
+    popup.addEventListener('click', function(e){
+            e.stopPropagation();
+        });  
+});
+
+
+
+
 
