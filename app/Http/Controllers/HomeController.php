@@ -26,13 +26,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-
         $today = new DateTime();
 
         $dtoday = date("Y-m-d");
         $d3DaysLater = date("Y-m-d", strtotime('+ 3 days'));
         $d7DaysLater = date("Y-m-d", strtotime('+ 7 days'));
-        $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->where('deadline', '>=', $today)->get();
+        $todos = Auth::user()
+            ->todos()
+            ->orderByRaw('`deadline` IS NULL ASC')
+            ->orderBy('deadline')
+            ->where('deadline', '>=', $today)
+            ->where('deadline', '<=', $d7DaysLater)
+            ->get();
 
         return view('home', [
             'todos' => $todos,
@@ -41,4 +46,5 @@ class HomeController extends Controller
             'd7DaysLater' => $d7DaysLater
         ]);
     }
+
 }

@@ -162,6 +162,9 @@ function windowResized() {
     document.querySelectorAll('.popup').forEach(function (popup){
         popup.style.display = 'none';
     });
+    document.getElementById('canvasContainer').style.display = "initial";
+    document.getElementById('listViewContainer').style.display = "none";
+
     setup();
 }
 
@@ -199,6 +202,19 @@ document.querySelectorAll('.popup').forEach(function (popup) {
         });  
 });
 
+let changeViewClicked = false;
+document.getElementById('changeView').addEventListener('click', function(){
+    changeViewClicked = !changeViewClicked;
+    if(changeViewClicked){
+        document.getElementById('canvasContainer').style.display = "none";
+        document.getElementById('listViewContainer').style.display = "initial";
+    }else{
+        document.getElementById('canvasContainer').style.display = "initial";
+        document.getElementById('listViewContainer').style.display = "none";
+
+    }
+
+})
 
 
 
