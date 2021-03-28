@@ -25,21 +25,21 @@
         @endforeach
         
     </div>
+<!-- Vue -->
+    <!-- <div id="app">
+    <example-component></example-component>
+    </div> -->
 
 </div>
 @endsection
 @section('home-js')
+<!-- <script src=" {{ mix('js/app.js') }} "></script> -->
 <script>
 
     window.taskObj = <?php echo json_encode($todos); ?>;
     window.dtoday = <?php echo json_encode($dtoday); ?>;
     window.d3DaysLater = <?php echo json_encode($d3DaysLater); ?>;
     window.d7DaysLater = <?php echo json_encode($d7DaysLater); ?>;
-
-    // window.taskObj.forEach(function(element){
-    //     console.log(element);
-    //     console.log(element.todo);
-    // });
     
 </script>
 

@@ -18,44 +18,67 @@
 </head>
 
 <body>
-    <div class="container mt-5">
-        
+
+    <div class="mt-5 px-5">
+
+        <div class="mb-5">
+
             <div>
-                <h1 class="text-center mb-5">タスクのリスト表示</h1>
+                <h1 class="text-center mb-5">新しいタスクを追加</h1>
             </div>
 
-        <table class="table row_table">
-            <thead>
-                <tr>
-                    <th scope="col" style="width: 40%">やること</th>
-                    <th scope="col">期限</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($todos as $todo)
-                <tr>
-                    <th scope="row" class="todo">{{ $todo->todo }}</th>
-                    <!-- 表示の仕方を変える ->format('Y/m/d H:i') ------nは03→3---------------------------------------->
-                    <td class="" value="deadline">{{ $todo->deadline->format('n月j日 G時i分') }}</td>
-                    <td class="option"><a href="{{ route('todos.edit', $todo->id) }}" class="btn btn-primary">編集</a>
-                
-                    {!! Form::open(['route' => ['todos.destroy', $todo->id], 'method' => 'POST']) !!}
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
-                    {{ Form::submit('削除', ['class' => 'btn btn-danger']) }}
-                    {!! Form::close() !!}
-                    </td>
-                    
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+            <form action="{{ route('todos.store') }}" method="post">
+                {{ csrf_field() }}
+                <div>
+                    <div class="col-lg-6 mx-auto d-block">
+                        <label for="" class="mb-4">タスクを入力してください</label>
+                        <input type="text" class="form-control mb-4" name="newTodo">
+                    </div>
+                    <!-- エラー -->
+                    @if ($errors->has('newTodo'))
+                    <p class="alert alert-danger">{{ $errors->first('newTodo') }}</p>
+                    @endif
 
-        <a href="{{ url('/home') }}" class="btn btn-primary">ホーム画面へ</a>
+                    <div class="col-lg-6 mx-auto d-block">
+                        <label for="" class="mb-4">日時を選択してください</label>
+                        <input type="text" class="form-control mb-4" id="date-time" placeholder="" name="newDeadline">
+                    </div>
+                    <!-- エラー -->
+                    @if ($errors->has('newDeadline'))
+                    <p class="alert alert-danger">{{ $errors->first('newDeadline') }}</p>
+                    @endif
+
+
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary mt-5" value="新規追加">
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="text-center">
+            <a href="{{ url('/home') }}" class="btn btn-primary mt-2">ホーム画面へ</a>
+        </div>
+
     </div>
 
-</body>
-</html>
+    <script>
+        $(function() {
+            $('#date-time').bootstrapMaterialDatePicker({
+                format: 'YYYY-MM-DD HH:mm',
+                nowButton: true,
+                clearButton: true,
+                lang: 'ja',
+                cancelText: '×',
+                okText: '決定',
+                clearText: 'クリアー',
+                nowText: '現在'
+            });
+        });
+    </script>
 
+
+</body>
+
+</html>

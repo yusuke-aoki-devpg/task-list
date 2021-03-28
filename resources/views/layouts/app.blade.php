@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <!-- <link rel="stylesheet" href="{{ mix('/css/app.css') }}"> -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home.css') }}" rel="stylesheet">
 </head>
@@ -68,11 +69,11 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     
                                     <a class="dropdown-item" href="{{ url('/todos') }}">      
-                                        {{ __('タスクを追加') }}
+                                        {{ __('リスト表示') }}
                                     </a>
 
                                     <a class="dropdown-item" href="{{ url('/todos/create') }}">
-                                        {{ __('リスト表示') }}
+                                        {{ __('タスクを追加') }}
                                     </a>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
