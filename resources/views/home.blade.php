@@ -2,35 +2,48 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
 
-            <!-- ログイン後の画面 -->
-            <!-- ＋ボタン -->
-            <ul class="menu-icon clearfix">
-                <li class="accordion">
-                    <a href="{{ url('/todos') }}"></a>
-                </li>
-            </ul>
+    <!-- タスク表示 -->
 
-            <tbody>
-            </tbody>
-        </div>
-    </div>
     <div class="container">
-        <div id="canvasContainer">
+        <div id="canvasContainer"></div>
+
+        @foreach ($todos as $todo)
+        <div id="popup{{ $todo->id }}" class="popup" name="popup">
+            <div class="popuptext">
+                <h4>{{ $todo->todo }}</h4>
+            </div>
+            <div class="popuptext option">
+                <a href="{{ route('todos.edit', $todo->id) }}">編集</a>
+                {!! Form::open(['route' => ['todos.destroy', $todo->id], 'method' => 'POST']) !!}
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
+                <td>{{ Form::submit('削除',['class' => 'delete-btn']) }}</td>
+                {!! Form::close() !!}
+            </div>
         </div>
-        <div id="popup"></div>
+        @endforeach
+        
     </div>
+
 </div>
 @endsection
 @section('home-js')
 <script>
-        window.taskObj = @json($todos);
-        window.dtoday = @json($dtoday);
-        window.d3DaysLater = @json($d3DaysLater);
-        window.d7DaysLater = @json($d7DaysLater);
+
+    window.taskObj = <?php echo json_encode($todos); ?>;
+    window.dtoday = <?php echo json_encode($dtoday); ?>;
+    window.d3DaysLater = <?php echo json_encode($d3DaysLater); ?>;
+    window.d7DaysLater = <?php echo json_encode($d7DaysLater); ?>;
+
+    // window.taskObj.forEach(function(element){
+    //     console.log(element);
+    //     console.log(element.todo);
+    // });
+    
 </script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="{{ asset('js/home.js') }}" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"></script>
 

@@ -8,68 +8,57 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
+.container{
+  z-index: 5 !important;
+}
+
 .form-group{
   margin: 50px;
 }
 
-ul{
-  padding-left: 0 !important;
-  list-style: none;
+.option{
+  display: flex;
 }
 
-.menu-icon .accordion {
-	width: 30px;
-	height: 30px;
-	margin: 0;
-}
-.menu-icon .accordion a {
-	display: block;
-	height: 30px;
-	text-align: center;
-	line-height:0; 
-  position: relative;
-  /* ここ変える */
-  left: 300px;
+.option a{
+  margin: 5px;
 }
 
-.menu-icon .accordion a:before{
-	display: block;
-	content: "";
-	position: absolute;
-	top:0; 
-	right:0;
-	bottom:0;
-	left:0;
-	margin:auto;
-	width: 30px;
-	height: 2px;
-	background-color: #40180A;
-	transition: .2s;
-	transform: rotate(90deg);
-	-webkit-transform: rotate(90deg);
+.option input{
+  margin: 5px;
 }
 
-.menu-icon .accordion a:after{
-	display: block;
-	content: "";
-	position: absolute;
-	top: 0; 
-	right: 0;
-	bottom: 0;
-	left: 0;
-	margin: auto;
-	width: 30px;
-	height: 2px; 
-	background-color: #40180A;
-	transition: .3s;
+@media screen and (max-width: 640px) {
+.row_table,
+.row_table td,
+.row_table th {
+  border: 1px solid #cbced2;
+  border-collapse: collapse;
+  text-align: center;
 }
 
-
-
-.deadline{
-  background-color: #f6993f !important;
+.row_table th {
+  padding: 4px 12px;
+  display: block;
+  width: 100%
 }
 
+.row_table td {
+  background: #f5f6f8;
+  padding: 4px 12px;
+  display: block;
+  width: 100%;
+}
+
+.option a{
+  display: flex;
+}
+
+.option input{
+  display: flex;
+}
+
+}
  /* 追記！----------------------------------------------------------------- */
 :root {
   --blue: #3490dc;

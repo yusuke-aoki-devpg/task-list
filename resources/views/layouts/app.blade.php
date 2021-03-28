@@ -46,8 +46,7 @@
                             @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}">
-                                        <!-- {{ __('Login') }} -->
-                                        ログイン
+                                        {{ __('ログイン') }}
                                     </a>
                                 </li>
                             @endif
@@ -55,23 +54,32 @@
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">
-                                        <!-- {{ __('Register') }} -->
-                                        新規登録
+                                        {{ __('新規登録') }}
                                     </a>
                                 </li>
                             @endif
                         @else
                             <li class="nav-item dropdown">
+
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    
+                                    <a class="dropdown-item" href="{{ url('/todos') }}">      
+                                        {{ __('タスクを追加') }}
+                                    </a>
+
+                                    <a class="dropdown-item" href="{{ url('/todos/create') }}">
+                                        {{ __('リスト表示') }}
+                                    </a>
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                                     ログアウト
-                                        <!-- {{ __('Logout') }} -->
+                                                     
+                                        {{ __('ログアウト') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -91,32 +99,5 @@
     </div>
         @yield('home-js')
 
-    <script>
-
-
-        const obj = @json($todos ?? '');
-
-        // Object.keys(obj).forEach(function(key) {
-        //     console.log(obj[key]);
-        // })
-
-        // obj.forEach(function(objs) {
-        //     // console.log(index)
-
-        //     var date = objs.toLocaleString()
-        //     console.log(date);
-
-        //     console.log(objs.todo)
-        //     console.log(objs.deadline)
-        // })
-        
-        // const todos = @json($todos ?? '');
-        // console.log(obj);
-        // console.log(todos[1]);
-        
-
-
-
-    </script>
 </body>
 </html>

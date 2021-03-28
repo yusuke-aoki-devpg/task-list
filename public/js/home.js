@@ -40,37 +40,51 @@ function setup(){
     
 
     let protection = 0;
-
+// taskObj.length
     for(var i = 0; i < taskObj.length; i++){ 
         let taskdate = formatDate(new Date(taskObj[i].deadline));    
         let tasktime = formatTime(new Date(taskObj[i].deadline));
-        
-        console.log("taskdate", taskdate);
-        console.log("tasktime", tasktime);
 
         let circle = {
-            x: random(70, width - 70),
-            y: random(70, height - 70),
+            // x: random(70, width - 70),
+            // y: random(70, height - 70),
+            // r: taskdate === dtoday ? 
+            //         65 : taskdate > dtoday && taskdate <= d3DaysLater ? 
+            //             48 : 28,
+            x: random(90, width - 90),
+            y: random(90, height - 90),
             r: taskdate === dtoday ? 
-                    65 : taskdate > dtoday && taskdate <= d3DaysLater ? 
-                        48 : 28,
+                    80 : taskdate > dtoday && taskdate <= d3DaysLater ? 
+                        65 : 48,
             circleColor: taskdate === dtoday ? 
                 color(240,119,110) : taskdate > dtoday && taskdate <= d3DaysLater ? 
                     color(255,242,105) : color(170,250,170),
             textColor: taskdate === dtoday ? 
                 "#FFF" : taskdate > dtoday && taskdate <= d3DaysLater ? 
                     "#000" : "#000",
+                    
+            // textsize: taskdate === dtoday ? 
+            //         18 : taskdate > dtoday && taskdate <= d3DaysLater ? 
+            //             12 : 8,
+            // textsizesmall: taskdate === dtoday ? 
+            // 12 : taskdate > dtoday && taskdate <= d3DaysLater ? 
+            //     10 : 6,
+    
+            // textspace: taskdate === dtoday ? 
+            //         18 : taskdate > dtoday && taskdate <= d3DaysLater ? 
+            //             12 : 10,
             textsize: taskdate === dtoday ? 
-                    18 : taskdate > dtoday && taskdate <= d3DaysLater ? 
-                        12 : 8,
+                    24 : taskdate > dtoday && taskdate <= d3DaysLater ? 
+                        18 : 12,
             textsizesmall: taskdate === dtoday ? 
-            12 : taskdate > dtoday && taskdate <= d3DaysLater ? 
-                10 : 6,
+            16 : taskdate > dtoday && taskdate <= d3DaysLater ? 
+                14 : 10,
     
             textspace: taskdate === dtoday ? 
-                    18 : taskdate > dtoday && taskdate <= d3DaysLater ? 
-                        12 : 10,
-            title: taskObj[i].todo,
+                    20 : taskdate > dtoday && taskdate <= d3DaysLater ? 
+                        14 : 12,
+
+            title: taskObj[i].todo, //--------------------------------------------------------------------
             date: taskdate,
             time: tasktime,
             id: taskObj[i].id
@@ -112,8 +126,8 @@ function draw(){
     circles.forEach(function(cir){
         //draw circle
         fill(cir.circleColor);
-        stroke(0, 0, 0, 50);
-        strokeWeight(2);
+        stroke(0, 0, 0, 10);
+        strokeWeight(1);
         ellipse(cir.x, cir.y, cir.r*2, cir.r*2);            
         
         //draw text
@@ -134,16 +148,15 @@ function draw(){
     });
 }
 
-//clear circles array and redraw circles when resize window
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight-100);
-    circles = [];
-    document.getElementById('popup').style.cssText = 'display:none';
-    setup();
-}
 
 //pass mouse x y to showMsg when click inside circles
-function mouseClicked() {    
+function mouseClicked() {
+
+    let elements = document.getElementsByClassName('popup');
+    Array.prototype.forEach.call(elements, function(element) {
+        element.style.cssText = 'display:none';
+    });
+
     circles.forEach(function(cir){
         var d = dist(cir.x, cir.y, mouseX, mouseY);
         if(d < cir.r){
@@ -154,29 +167,11 @@ function mouseClicked() {
     });
 }
 
-//show popup when click inside circles
-function showMsg(data, left, top, id){
-    document.getElementById('popup').style.cssText = 'display:block';
-    document.getElementById('popup').innerHTML = `
-        <div class="popuptext">
-            <h4>${data}</h4>
-        </div>        
-        <div class="popuptext option">
-            <div><a href="#">編集</a></div>　
-            <div><a href="#">削除</a></div>
-        </div>
-    `;
-    document.getElementById('popup').style.left = left;
-    document.getElementById('popup').style.top = top;
+// クリックしたら
+function showMsg(title, left, top, id){
+
+    document.getElementById('popup'+id).style.cssText = 'display:block';
+    document.getElementById('popup'+id).style.left = left;
+    document.getElementById('popup'+id).style.top = top;
+    
 }
-
-//Hide popup when click anywhere outside popup div
-document.body.addEventListener('click', function(e){
-    document.getElementById('popup').style.cssText = 'display:none';
-})
-
-//nothing happen when click inside popup div
-document.getElementById('popup').addEventListener('click', function(e){
-    e.stopPropagation();
-})  
-

@@ -14,11 +14,7 @@ class CreateTodosTable extends Migration
     public function up()
     {
         Schema::create('todos', function (Blueprint $table) {
-            // $table->id();
-            // $table->timestamps();
-            // ここ編集
-
-
+            
             $table->bigIncrements('id');
             $table->text('todo');
             // deadline  nullでも可能
@@ -29,6 +25,10 @@ class CreateTodosTable extends Migration
             $table->integer('user_id')->unsigned();
             // 外部キーを設定する
             $table->foreign('user_id')->references('id')->on('users');
+            
+            $table->string('user_email')->unique();
+            // 外部キーを設定する
+            $table->foreign('user_email')->references('email')->on('users');
 
         });
     }
@@ -45,5 +45,11 @@ class CreateTodosTable extends Migration
         Schema::table('todos', function (Blueprint $table) {
             $table->dropColumn('user_id');
         });
+
+        Schema::table('todos', function (Blueprint $table) {
+            $table->dropColumn('user_email');
+        });
+
+
     }
 }

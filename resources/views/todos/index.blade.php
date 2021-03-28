@@ -18,103 +18,67 @@
 </head>
 
 <body>
-    <div class="container mt-3">
-        <h1 class="text-center">タスク管理アプリ</h1><br>
-        @if(Auth::check())
-        <!-- ログインしていた場合 -->
-        {{ Auth::user()->name }}でログイン中です...................
-        @else
-        <!-- ログインしていない場合 -->
-        ログアウトしています
-        @endif
-    </div>
-    <div class="container mt-3">
-        <!-- フォーム -------------------------------------------------------->
-        <div class="container mb-4">
-            <!-- {!! Form::open(['route' => 'todos.store', 'method' => 'POST']) !!}
-            {{ csrf_field() }} -->
+
+    <div class="mt-5 px-5">
+
+        <div class="mb-5">
+
+            <div>
+                <h1 class="text-center mb-5">新しいタスクを追加</h1>
+            </div>
 
             <form action="{{ route('todos.store') }}" method="post">
-            {{ csrf_field() }}
-            <div class="row">
-        
-            <input type="text" class="form-control col-5 mr-5" name="newTodo">
-            <input type="text" class="form-control col-3 mr-3" id="date-time" placeholder="日時を選択してください" name="newDeadline">
-            <input type="submit" class="btn btn-primary" value="新規追加">
+                {{ csrf_field() }}
+                <div>
+                    <div class="col-lg-6 mx-auto d-block">
+                        <label for="" class="mb-4">タスクを入力してください</label>
+                        <input type="text" class="form-control mb-4" name="newTodo">
+                    </div>
+                    <!-- エラー -->
+                    @if ($errors->has('newTodo'))
+                    <p class="alert alert-danger">{{ $errors->first('newTodo') }}</p>
+                    @endif
 
-                <!-- {{ Form::text('newTodo', null, ['class' => 'form-control col-5 mr-5']) }}
-                {{ Form::date('newDeadline', null, ['class' => 'mr-5']) }}
-                {{ Form::submit('新規追加', ['class' => 'btn btn-primary']) }} -->
-            </div>
+                    <div class="col-lg-6 mx-auto d-block">
+                        <label for="" class="mb-4">日時を選択してください</label>
+                        <input type="text" class="form-control mb-4" id="date-time" placeholder="" name="newDeadline">
+                    </div>
+                    <!-- エラー -->
+                    @if ($errors->has('newDeadline'))
+                    <p class="alert alert-danger">{{ $errors->first('newDeadline') }}</p>
+                    @endif
+
+
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary mt-5" value="新規追加">
+                    </div>
+
+                </div>
             </form>
-            <!-- {!! Form::close() !!} -->
         </div>
-        <!-- フォーム -------------------------------------------------------->
-        {{-- エラー表示 ここから --}}
-        @if ($errors->has('newTodo'))
-        <p class="alert alert-danger">{{ $errors->first('newTodo') }}</p>
-        @endif
-        @if ($errors->has('newDeadline'))
-        <p class="alert alert-danger">{{ $errors->first('newDeadline') }}</p>
-        @endif
-        {{-- エラー表示 ここまで --}}
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col" style="width: 40%">やること</th>
-                    <th scope="col">期限</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($todos as $todo)
-                <tr>
-                    <th scope="row" class="todo">{{ $todo->todo }}</th>
-                    <!-- 表示の仕方を変える ->format('Y/m/d H:i') ------nは03→3---------------------------------------->
-                    
-                    <td class="" value="deadline">{{ $todo->deadline->format('n月j日 G時i分') }}</td>
-                    <td><a href="{{ route('todos.edit', $todo->id) }}" class="btn btn-primary">編集</a></td>
-                    {!! Form::open(['route' => ['todos.destroy', $todo->id], 'method' => 'POST']) !!}
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
-                    <td>{{ Form::submit('削除', ['class' => 'btn btn-danger']) }}</td>
-                    {!! Form::close() !!}
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="text-center">
+            <a href="{{ url('/home') }}" class="btn btn-primary mt-2">ホーム画面へ</a>
+        </div>
 
-        
-        <a href="{{ url('/home') }}" class="btn btn-primary">ホーム画面へ</a>
     </div>
 
-
-
     <script>
-        
-        $(function (){
-        $('#date-time').bootstrapMaterialDatePicker({
-            format: 'YYYY-MM-DD HH:mm',
-            nowButton: true,
-            clearButton: true,
-            lang: 'ja',
-            cancelText: '×',
-            okText: '決定',
-            clearText: 'クリアー',
-            nowText: '現在'
+        $(function() {
+            $('#date-time').bootstrapMaterialDatePicker({
+                format: 'YYYY-MM-DD HH:mm',
+                nowButton: true,
+                clearButton: true,
+                lang: 'ja',
+                cancelText: '×',
+                okText: '決定',
+                clearText: 'クリアー',
+                nowText: '現在'
+            });
         });
-    });
-
-
-
-    const todos = @json($todos);
-    console.log(todos);
-    console.log(todos[1]);
-
     </script>
 
 
 </body>
+
 </html>

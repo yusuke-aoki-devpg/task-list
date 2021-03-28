@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Console\Command;
 use App\Models\User;
 use App\Models\Todo;
+use Illuminate\Support\Facades\DB;
 use DateTime;
 use Carbon\Carbon;
 //メール送信用ファサード
@@ -44,23 +44,15 @@ class Batch extends Command
      */
     public function handle()
     {
-       // バッチ処理の誤差
-       $from = date('Y/m/d H:i:s', strtotime('+30minutes -5 seconds'));
-       $to = date('Y/m/d H:i:s', strtotime('+30minutes +5 seconds'));
+        // バッチ処理の誤差
+        $from = date('Y/m/d H:i:s', strtotime('-5 seconds'));
+        $to = date('Y/m/d H:i:s', strtotime('+5 seconds'));
 
-       // ループ処理
-       for ($i = 1; $i < User::count() + 2; $i++) {
-
-           $users = User::where('id', $i)->get();
-           $todos = Todo::where('user_id', $i)->where('deadline', '>', $from)->where('deadline', '<', $to)->get();
-
-           foreach ($users as $user) {
-               foreach ($todos as $todo) {
-                   Mail::raw($todo->deadline, function ($message) use ($user, $todo) {
-                       $message->to($user->email)->subject($todo->todo);
-                   });
-               }
-           }
-       }
+        $todos =  DB::table('todos')->where('deadline', '>', $from)->where('deadline', '<', $to)->leftJoin('users', 'todos.user_id', '=', 'users.id')->get();
+        foreach ($todos as $todo) {
+            Mail::raw($todo->deadline, function ($message) use ($todo) {
+                $message->to($todo->email)->subject($todo->todo);
+            });
+        }
     }
 }

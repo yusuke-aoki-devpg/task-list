@@ -28,13 +28,6 @@ class TodoController extends Controller
             ->where('deadline', '>=', $today)
             ->get();
 
-        // $todos = Auth::user()
-        //     ->todos()
-        //     ->orderByRaw('`deadline` IS NULL ASC')
-        //     ->orderBy('deadline')
-        //     ->where('deadline', '>=', $today)
-        //     ->get();
-
         return view('todos.index', [
             'todos' => $todos,
         ]);
@@ -45,9 +38,20 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $today = new DateTime();
+
+        $todos = Todo::where('user_id', $request->user()->id)
+            ->orderByRaw('`deadline` IS NULL ASC')
+            ->orderBy('deadline')
+            ->where('deadline', '>=', $today)
+            ->get();
+
+        return view('todos.create', [
+            'todos' => $todos,
+        ]);
     }
 
     /**
@@ -67,21 +71,13 @@ class TodoController extends Controller
             // nullableにしていた
         ]);
 
-        // 
-
         // DBに保存
         $request->user()->todos()->create([
             'todo' => $request->newTodo,
             'deadline' => $request->newDeadline,
         ]);
 
-        // $todo = new Todo();
-        // $todo->todo     = $request->newTodo;
-        // $todo->deadline = $request->newDeadline;
-        // Auth::user()->todos()->save($todo);
-
-        // リダイレクトする
-        return redirect()->route('todos.index');
+        return redirect()->route('home');
     }
 
     /**
@@ -133,7 +129,7 @@ class TodoController extends Controller
 
         $todo->save();
 
-        return redirect()->route('todos.index');
+        return redirect()->route('home');
     }
 
     /**
@@ -142,13 +138,16 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         //
         $todo = Todo::find($id);
 
         $todo->delete();
 
-        return redirect()->route('todos.index');
+        // 二重送信
+        $request->session()->regenerateToken();
+
+        return redirect()->route('home');
     }
 }
