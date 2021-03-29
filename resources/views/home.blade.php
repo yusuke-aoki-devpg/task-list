@@ -2,7 +2,7 @@
 
 @section('sub-nav-left')
 <div class="my-1" style="font-size: 1em;">
-    <a href="#" class="btn-outline-light p-2"><i class="fas fa-plus-circle"></i> <span class="pc-only">新規<span> </a>   
+    <a href="{{ route('todos.create') }}" class="btn-outline-light p-2"><i class="fas fa-plus-circle"></i> <span class="pc-only">新規<span> </a>   
 </div>
 <div id="changeView" class="my-1 mobile-only" style="font-size: 1em;">
     <a href="#" class="btn-outline-light p-2"><i class="fas fa-exchange-alt"></i></a>   
@@ -78,7 +78,6 @@
         window.dtoday = @json($dtoday);
         window.d3DaysLater = @json($d3DaysLater);
         window.d7DaysLater = @json($d7DaysLater);
-
 </script>
 <script src="{{ asset('js/home.js') }}" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"></script>

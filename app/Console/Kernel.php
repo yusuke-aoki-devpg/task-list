@@ -26,8 +26,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-// 下のコメントアウトを外すと１分おきにメールが送られる----------------------------------------------------------------------
-
         $schedule->command('command:test')->everyMinute();
     }
 

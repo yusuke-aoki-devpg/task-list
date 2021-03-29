@@ -24,15 +24,14 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
         $today = new DateTime();
 
         $dtoday = date("Y-m-d");
         $d3DaysLater = date("Y-m-d", strtotime('+ 3 days'));
         $d7DaysLater = date("Y-m-d", strtotime('+ 7 days'));
-        $todos = Auth::user()
-            ->todos()
+        $todos = Todo::where('user_id', $request->user()->id)
             ->orderByRaw('`deadline` IS NULL ASC')
             ->orderBy('deadline')
             ->where('deadline', '>=', $today)

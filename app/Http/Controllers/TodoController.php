@@ -16,12 +16,16 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         
         $today = new DateTime();
 
-        $todos = Auth::user()->todos()->orderByRaw('`deadline` IS NULL ASC')->orderBy('deadline')->where('deadline', '>=', $today)->get();
+        $todos = Todo::where('user_id', $request->user()->id)
+                    ->orderByRaw('`deadline` IS NULL ASC')
+                    ->orderBy('deadline')
+                    ->where('deadline', '>=', $today)
+                    ->get();
 
         return view('todos.index', [
             'todos' => $todos,
@@ -36,6 +40,7 @@ class TodoController extends Controller
     public function create()
     {
         //
+        return view('todos.create');
     }
 
     /**
@@ -46,21 +51,15 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        //ここでタスクを新規追加する------------------------------------------------------------------------
-
-        // バリデーションチェック
         $request->validate([
             'newTodo'     => 'required|max:100',
-            'newDeadline' => 'nullable|after:"now"',
+            'newDeadline' => 'required|after:"now"',
         ]);
 
-        //DBに保存
-        $todo = new Todo();
-
-        $todo->todo     = $request->newTodo;
-        $todo->deadline = $request->newDeadline;
-        
-        Auth::user()->todos()->save($todo);
+        $request->user()->todos()->create([
+            'todo' => $request->newTodo,
+            'deadline' => $request->newDeadline
+        ]);
 
         // リダイレクトする
         return redirect()->route('todos.index');
@@ -105,7 +104,7 @@ class TodoController extends Controller
         //
         $request->validate([
             'updateTodo'     => 'required|max:100',
-            'updateDeadline' => 'nullable|after:"now"',
+            'updateDeadline' => 'required|after:"now"',
         ]);
 
         $todo = Todo::find($id);
@@ -124,12 +123,14 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         //
         $todo = Todo::find($id);
 
         $todo->delete();
+
+        $request->session()->regenerateToken();
 
         return redirect()->route('todos.index');
     }
