@@ -150,10 +150,6 @@ return [
     'attributes' => [
         'email' => 'メールアドレス',
         'password' => 'パスワード',
-        'todo'     => 'Todo',
-        'deadline' => '期限',
-        'updateTodo'     => 'Todo',
-        'updateDeadline' => '期限',
     ],
 
 ];

@@ -4,7 +4,6 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use \App\Console\Commands\Batch;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +14,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        Batch::class,
     ];
 
     /**
@@ -26,9 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-// 下のコメントアウトを外すと１分おきにメールが送られる----------------------------------------------------------------------
-
-        $schedule->command('command:test')->everyMinute();
+        // $schedule->command('inspire')->hourly();
     }
 
     /**
