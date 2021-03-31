@@ -9,6 +9,16 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+
+    // ユーザーとタスクの関係性をモデルにも記述します。
+    public function todos()
+    {
+        // return $this->hasMany('App\Models\Todo');
+        // return $this->hasOne('App\Models\Todo');
+        return $this->hasOne(Todo::class);
+    }
+
+
     use HasFactory, Notifiable;
 
     /**
@@ -40,4 +50,5 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
 }
