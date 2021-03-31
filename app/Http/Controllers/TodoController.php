@@ -61,8 +61,7 @@ class TodoController extends Controller
             'deadline' => $request->newDeadline
         ]);
 
-        // リダイレクトする
-        return redirect()->route('todos.index');
+        return redirect()->route('home');
     }
 
     /**
@@ -82,10 +81,10 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Todo $todo)
     {
-        //
-        $todo = Todo::find($id);
+        // 他のユーザーが編集できてしまっていた $todo = Todo::find($id);
+        $this->authorize('edit', $todo);
         
         return view('todos.edit', [
             'todo' => $todo,
@@ -114,7 +113,7 @@ class TodoController extends Controller
 
         $todo->save();
 
-        return redirect()->route('todos.index');
+        return redirect()->route('home');
     }
 
     /**
@@ -123,15 +122,15 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$id)
+    public function destroy(Request $request,Todo $todo)
     {
-        //
-        $todo = Todo::find($id);
+        // 他のユーザーが編集できてしまっていた $todo = Todo::find($id);
+        $this->authorize('destroy', $todo);
 
         $todo->delete();
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('todos.index');
+        return redirect()->route('home');
     }
 }
