@@ -71,8 +71,8 @@ function setup(){
                     80 : taskdate > dtoday && taskdate <= d3DaysLater ? 
                         65 : 48,
             circleColor: taskdate === dtoday ? 
-                color(240,119,110) : taskdate > dtoday && taskdate <= d3DaysLater ? 
-                    color(255,242,105) : color(170,250,170),
+                color(255,80,80) : taskdate > dtoday && taskdate <= d3DaysLater ? 
+                    color(255,250,80) : color(60,235,80),
             textColor: taskdate === dtoday ? 
                 "#FFF" : taskdate > dtoday && taskdate <= d3DaysLater ? 
                     "#000" : "#000",
@@ -129,13 +129,14 @@ function draw(){
         document.getElementById('msgContainer').innerText = "";
 
     }
-    background(250,250,250,100);
+    background(0,0,0,0);
 
     circles.forEach(function(cir){
         //draw circle
         fill(cir.circleColor);
-        stroke(0, 0, 0, 50);
-        strokeWeight(2);
+        stroke(150, 150, 150, 50);
+        // strokeWeight(3);
+        noStroke();
         ellipse(cir.x, cir.y, cir.r*2, cir.r*2);            
         
         //draw text

@@ -30,11 +30,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/css/bootstrap-material-datetimepicker.min.css">
 
 </head>
-<body>
+<body class="bg-custom1" >
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-custom5 shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand text-white" href="{{ url('/') }}">
                     <!-- {{ config('app.name', 'Laravel') }} -->
                     タスク管理アプリ
                 </a>
@@ -94,14 +94,14 @@
             </div>
         </nav>
 
-        <div id="sub-nav-bar" class="nav bg-dark">
+        <div id="sub-nav-bar" class="nav bg-custom2">
             <div class="container d-flex flex-row justify-content-between"> 
                 <div class="d-flex flex-row justify-content-start"> 
                     <div class="my-1" style="font-size: 1em;">
-                        <a href="{{ route('home') }}" class="btn-outline-light p-2"><i class="fas fa-home"></i> <span class="pc-only">ホーム<span> </a>    
+                        <a href="{{ route('home') }}" class="btn-outline-custom1 text-dark text-decoration-none p-2"><i class="fas fa-home"></i> <span class="pc-only">ホーム<span> </a>    
                     </div>
                     <div class="my-1" style="font-size: 1em;">
-                        <a href="{{ route('todos.index') }}" class="btn-outline-light p-2"><i class="fas fa-list-alt"></i> <span class="pc-only">一覧<span> </a>    
+                        <a href="{{ route('todos.index') }}" class="btn-outline-custom1 text-dark text-decoration-none p-2"><i class="fas fa-list-alt"></i> <span class="pc-only">一覧<span> </a>    
                     </div>
                     @yield('sub-nav-left')
                 </div>  
@@ -115,25 +115,5 @@
         </main>
     </div>
         @yield('extra-js')
-    <script>
-        const obj = @json($todos ?? '');
-        // Object.keys(obj).forEach(function(key) {
-        //     console.log(obj[key]);
-        // })
-
-        // obj.forEach(function(objs) {
-        //     // console.log(index)
-
-        //     var date = objs.toLocaleString()
-        //     console.log(date);
-
-        //     console.log(objs.todo)
-        //     console.log(objs.deadline)
-        // })
-        
-        // const todos = @json($todos ?? '');
-        // console.log(obj);
-        // console.log(todos[1]);
-    </script>
 </body>
 </html>
