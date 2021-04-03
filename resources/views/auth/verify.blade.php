@@ -2,12 +2,15 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
+    <div class="row justify-content-center mb-3">
+        <div class="m-5 col-11 col-md-8">
 
-                <div class="card-body">
+            <div class="py-4 bg-info">
+                <h4 class="text-center">{{ __('Verify Your Email Address') }}</h4>
+            </div>
+
+            <div class="py-4 bg-light">
+                <div class="container mb-4">
                     @if (session('resent'))
                         <div class="alert alert-success" role="alert">
                             {{ __('A fresh verification link has been sent to your email address.') }}
