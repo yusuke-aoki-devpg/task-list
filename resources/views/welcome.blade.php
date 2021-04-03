@@ -37,7 +37,7 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-        <script>
+        {{-- <script>
         $(function() {
             setTimeout('rect()'); //アニメーションを実行
         });
@@ -50,7 +50,7 @@
             }, 800);
             setTimeout('rect()', 1600); //アニメーションを繰り返す間隔
         }
-        </script>
+        </script> --}}
 
 
     </head>
