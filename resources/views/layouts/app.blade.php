@@ -20,17 +20,19 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/js/bootstrap-material-datetimepicker.min.js"></script>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> --}}
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/home.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/css/bootstrap-material-datetimepicker.min.css">
 
 </head>
-<body>
+<body class="bg-primary">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -93,27 +95,26 @@
                 </div>
             </div>
         </nav>
+        @yield('subnav')
 
-        <div id="sub-nav-bar" class="nav bg-dark">
-            <div class="container d-flex flex-row justify-content-between"> 
-                <div class="d-flex flex-row justify-content-start"> 
-                    <div class="my-1" style="font-size: 1em;">
-                        <a href="{{ route('home') }}" class="btn-outline-light p-2"><i class="fas fa-home"></i> <span class="pc-only">ホーム<span> </a>    
-                    </div>
-                    <div class="my-1" style="font-size: 1em;">
-                        <a href="{{ route('todos.index') }}" class="btn-outline-light p-2"><i class="fas fa-list-alt"></i> <span class="pc-only">一覧<span> </a>    
-                    </div>
-                    @yield('sub-nav-left')
-                </div>  
-                <div class="d-flex flex-row justify-content-end align-items-center"> 
-                    @yield('sub-nav-right')
-                </div> 
-            </div>    
-        </div>
         <main>
             @yield('content')
         </main>
     </div>
         @yield('extra-js')
+        <script>
+            $(function() {
+                $('#date-time').bootstrapMaterialDatePicker({
+                    format: 'YYYY-MM-DD HH:mm',
+                    nowButton: true,
+                    clearButton: true,
+                    lang: 'ja',
+                    cancelText: '×',
+                    okText: '決定',
+                    clearText: 'クリアー',
+                    nowText: '現在'
+                });
+            });
+        </script>
 </body>
 </html>

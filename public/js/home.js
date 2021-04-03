@@ -4,7 +4,7 @@ let clicked = false;
 let clickedX;
 let clickedY;
 let drawNum;
-
+let popWidth = 110;
 
 //get date only
 function formatDate(d){  
@@ -50,12 +50,11 @@ function shortenStr(str){
 }
 
 function setup(){
-    let cnv = createCanvas(windowWidth, windowHeight-120);
+    let cnv = createCanvas(windowWidth, windowHeight-120, P2D);
     cnv.position(0, 120);
     cnv.parent("canvasContainer");
     cnv.id('canvas');
     
-
     let protection = 0;
 
     for(var i = 0; i < taskObj.length; i++){ 
@@ -71,11 +70,9 @@ function setup(){
                     80 : taskdate > dtoday && taskdate <= d3DaysLater ? 
                         65 : 48,
             circleColor: taskdate === dtoday ? 
-                color(240,119,110) : taskdate > dtoday && taskdate <= d3DaysLater ? 
-                    color(255,242,105) : color(170,250,170),
-            textColor: taskdate === dtoday ? 
-                "#FFF" : taskdate > dtoday && taskdate <= d3DaysLater ? 
-                    "#000" : "#000",
+                color(231,32,100,255) : taskdate > dtoday && taskdate <= d3DaysLater ? 
+                    color(251,192,13,255) : color(129,201,45,255),
+            textColor: color(12,42,70),
             textsize: taskdate === dtoday ? 
                     24 : taskdate > dtoday && taskdate <= d3DaysLater ? 
                         18 : 12,
@@ -119,25 +116,27 @@ function setup(){
         }
 
     }         
+    drawing();
 }
 
 //draw circles
-function draw(){
+function drawing(){
     if(circles.length < taskObj.length){
         document.getElementById('msgContainer').innerText = "全てのタスク表示できません";
     }else {
         document.getElementById('msgContainer').innerText = "";
-
     }
-    background(250,250,250,100);
 
     circles.forEach(function(cir){
-        //draw circle
-        fill(cir.circleColor);
-        stroke(0, 0, 0, 50);
-        strokeWeight(2);
-        ellipse(cir.x, cir.y, cir.r*2, cir.r*2);            
+        //draw circle    
+        drawingContext.shadowBlur = 10;
+        drawingContext.shadowColor = 'rgba(188,188,188,255)';
         
+        fill(cir.circleColor);
+        noStroke();
+        smooth();
+        ellipse(cir.x, cir.y, cir.r*2, cir.r*2);            
+        drawingContext.shadowBlur = 0;
         //draw text
         let line1 = `${cir.title}\n`;
         fill(cir.textColor);
@@ -173,7 +172,11 @@ function mouseClicked() {
     circles.forEach(function(cir){
         var d = dist(cir.x, cir.y, mouseX, mouseY);
         if(d < cir.r){
-            clickedX = mouseX + "px";
+            if((mouseX + popWidth) > windowWidth){
+                clickedX = windowWidth - popWidth + "px";
+            }else{
+                clickedX = mouseX + "px";
+            }
             clickedY = mouseY + 70 + "px";
             showMsg(cir.title, clickedX, clickedY, cir.id);
         }
@@ -208,9 +211,11 @@ document.getElementById('changeView').addEventListener('click', function(){
     if(changeViewClicked){
         document.getElementById('canvasContainer').style.display = "none";
         document.getElementById('listViewContainer').style.display = "initial";
+        document.getElementById('msgContainer').style.display = "none";
     }else{
         document.getElementById('canvasContainer').style.display = "initial";
         document.getElementById('listViewContainer').style.display = "none";
+        document.getElementById('msgContainer').style.display = "block";
 
     }
 
