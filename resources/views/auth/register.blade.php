@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center mb-3">
-        <div class="m-5 col-11 col-md-6"> 
+        <div class="m-5 col-11 col-md-8"> 
                     
             <div class="py-4 bg-info">
                 <h4 class="text-center">新規登録</h4>
