@@ -17,7 +17,7 @@
         <form action="{{ route('todos.store') }}" method="post">
             {{ csrf_field() }}
 
-            <div class="row　justify-content-center mb-3">
+            <div class="row justify-content-center mb-3">
                 <div class="col-md-8">
                     <label for="newTodo">タスク</label>
                     <input type="text" class="form-control" name="newTodo">
