@@ -48,10 +48,11 @@ class Batch extends Command
         $from = date('Y/m/d H:i:s', strtotime('-5 seconds'));
         $to = date('Y/m/d H:i:s', strtotime('+5 seconds'));
 
-        $todos =  DB::table('todos')->where('deadline', '>', $from)->where('deadline', '<', $to)->leftJoin('users', 'todos.user_id', '=', 'users.id')->get();
+        $todos = Todo::where('deadline', '>', $from)->where('deadline', '<', $to)->get();
+
         foreach ($todos as $todo) {
             Mail::raw($todo->deadline, function ($message) use ($todo) {
-                $message->to($todo->email)->subject($todo->todo);
+                $message->to($todo->user->email)->subject($todo->todo);
             });
         }
 
