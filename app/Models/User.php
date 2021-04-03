@@ -13,7 +13,7 @@ class User extends Authenticatable
     // ユーザーとタスクの関係性をモデルにも記述します。
     public function todos()
     {
-        return $this->hasOne(Todo::class);
+        return $this->hasMany(Todo::class);
     }
 
 

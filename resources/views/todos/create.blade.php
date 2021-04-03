@@ -1,6 +1,7 @@
 @extends('layouts.subnav')
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center mb-3">
         <div class="m-5 col-11 col-md-6">
