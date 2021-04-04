@@ -15,7 +15,6 @@
             @foreach ($todos as $todo)
             <tr>
                 <td class="todo pc-only">{{ $todo->todo }}</td>
-                <!-- 表示の仕方を変える ->format('Y/m/d H:i') ------nは03→3---------------------------------------->
                 <td class="pc-only" value="deadline">{{ $todo->deadline->format('n月d日 H:i') }}</td>
 
                 <td class="mobile-only">
