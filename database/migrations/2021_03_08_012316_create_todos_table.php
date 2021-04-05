@@ -32,8 +32,8 @@ class CreateTodosTable extends Migration
     {
         Schema::dropIfExists('todos');
 
-        Schema::table('todos', function (Blueprint $table) {
-            $table->dropColumn('user_id');
-        });
+        // Schema::table('todos', function (Blueprint $table) {
+        //     $table->dropColumn('user_id');
+        // });
     }
 }
