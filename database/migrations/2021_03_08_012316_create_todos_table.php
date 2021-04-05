@@ -14,22 +14,12 @@ class CreateTodosTable extends Migration
     public function up()
     {
         Schema::create('todos', function (Blueprint $table) {
-            // $table->id();
-            // $table->timestamps();
-            // ここ編集
-
-
             $table->bigIncrements('id');
-            $table->text('todo');
-            // deadline  nullでも可能
-            $table->dateTime('deadline')->nullable();
-            // created_at updated_at
+            $table->text('todo')->nullable(false);;
+            $table->dateTime('deadline')->nullable(false);
             $table->timestamps();
-            // 符合なしにする user_id
-            $table->integer('user_id')->unsigned();
-            // 外部キーを設定する
+            $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-
         });
     }
 
