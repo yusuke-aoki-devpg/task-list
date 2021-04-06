@@ -165,6 +165,7 @@ function windowResized() {
     document.getElementById('listViewContainer').style.display = "none";
 
     setup();
+    sessionStorage.clear();
 }
 
 //pass mouse x y to showMsg when click inside circles
@@ -178,16 +179,20 @@ function mouseClicked() {
                 clickedX = mouseX + "px";
             }
             clickedY = mouseY + 70 + "px";
-            showMsg(cir.title, clickedX, clickedY, cir.id);
+            showMsg(clickedX, clickedY, cir.id);
         }
     });
 }
 
 //show popup when click inside circles
-function showMsg(data, left, top, id){
-    document.getElementById('popup'+id).style.display = 'initial';
-    document.getElementById('popup'+id).style.left = left;
-    document.getElementById('popup'+id).style.top = top;
+function showMsg(left, top, id){
+    if(sessionStorage.getItem("changeView") === "list"){
+        e.stopPropagation();
+    }else{
+        document.getElementById('popup'+id).style.display = 'initial';
+        document.getElementById('popup'+id).style.left = left;
+        document.getElementById('popup'+id).style.top = top;
+    }
 }
 
 //Hide popup when click anywhere outside popup div
@@ -197,29 +202,44 @@ document.body.addEventListener('click', function(){
     })
 })
 
-
 //nothing happen when click inside popup div
 document.querySelectorAll('.popup').forEach(function (popup) {
     popup.addEventListener('click', function(e){
             e.stopPropagation();
-        });  
+    });  
 });
 
-let changeViewClicked = false;
+//get session storage
+if(sessionStorage.getItem("changeView") === "list"){
+    showList();
+}else{
+    showBall();
+}
+
+//check on session storage when change view button clicked
 document.getElementById('changeView').addEventListener('click', function(){
-    changeViewClicked = !changeViewClicked;
-    if(changeViewClicked){
-        document.getElementById('canvasContainer').style.display = "none";
-        document.getElementById('listViewContainer').style.display = "initial";
-        document.getElementById('msgContainer').style.display = "none";
+    if(sessionStorage.getItem("changeView") === "list"){
+        sessionStorage.setItem("changeView", "ball");
+        showBall();
     }else{
-        document.getElementById('canvasContainer').style.display = "initial";
-        document.getElementById('listViewContainer').style.display = "none";
-        document.getElementById('msgContainer').style.display = "block";
-
+        sessionStorage.setItem("changeView", "list");
+        showList();
     }
-
 })
+
+//ball view
+function showBall(){
+    document.getElementById('canvasContainer').style.display = "initial";
+    document.getElementById('listViewContainer').style.display = "none";
+    document.getElementById('msgContainer').style.display = "block";
+}
+
+// list view
+function showList() {
+    document.getElementById('canvasContainer').style.display = "none";
+    document.getElementById('listViewContainer').style.display = "initial";
+    document.getElementById('msgContainer').style.display = "none";
+}
 
 
 
