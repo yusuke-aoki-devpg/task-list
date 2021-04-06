@@ -19,14 +19,14 @@
         @foreach ($todos as $index => $todo)
         <div id="popup{{ $todo->id }}" class="popup" name="popup" style="display: none">
             <div class="popuptext">
-                <div class="p-1 text-white"> {{ $todo->todo }} </div>
+                <div class="p-1 text-white my-1"> {{ $todo->todo }} </div>
             </div>        
-            <div class="popuptext option">
-                <div><a class="text-white btn btn-sm" href=" {{ route('todos.edit', $todo->id)}} ">編集</a></div>　
+            <div class="popuptext option mb-2">
+                <div><a class="btn btn-sm btn-link text-white" href=" {{ route('todos.edit', $todo->id)}} ">編集</a></div>　
                 {!! Form::open(['route' => ['todos.destroy', $todo->id], 'method' => 'POST'])!!}
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
-                {{ Form::submit('削除', array('class'=>'btn btn-sm btn-link')) }}
+                {{ Form::submit('削除', array('class'=>'btn btn-sm btn-link text-white')) }}
                 {!! Form::close() !!}
             </div>        
         </div>
