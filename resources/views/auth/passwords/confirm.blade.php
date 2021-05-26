@@ -2,17 +2,23 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Confirm Password') }}</div>
+    <div class="row justify-content-center mb-3">
+        <div class="m-5 col-11 col-md-8">
 
-                <div class="card-body">
-                    {{ __('Please confirm your password before continuing.') }}
+            <div class="py-4 bg-info">
+                <h4 class="text-center">{{ __('Confirm Password') }}</h4>
+            </div>
 
+            <div class="py-4 bg-light">
+                <div class="container mb-4">
                     <form method="POST" action="{{ route('password.confirm') }}">
                         @csrf
-
+                        <div class="form-group row">
+                            <p class="col-md-9 offset-md-3">
+                                {{ __('Please confirm your password before continuing.') }}
+                            </p>
+                        </div>
+    
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
@@ -29,7 +35,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-outline-dark">
                                     {{ __('Confirm Password') }}
                                 </button>
 

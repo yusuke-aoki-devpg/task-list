@@ -16,29 +16,28 @@
 
 
 body {
-  overflow: hidden;    
+   overflow-x: hidden; 
 }
 
-ul{
-    padding-left: 0 !important;
-    list-style: none;
-}
+// ul{
+//     padding-left: 0 !important;
+//     list-style: none;
+// }
 
-.form-group{
-    margin: 50px;
-}
+// .form-group{
+//     margin: 50px;
+// }
   
-.deadline{
-    background-color: #f6993f !important;
-}
+// .deadline{
+//     background-color: #f6993f !important;
+// }
 
 .popup{
     position: absolute;
     border-radius: 15px;
-    background-color: #717177;
+    background-color: $dark;
     width: 110px;
     text-align: center;
-    z-index: 1;
     -webkit-animation: fadeIn 0.5s;
     animation: fadeIn 0.5s;
     z-index: 1;

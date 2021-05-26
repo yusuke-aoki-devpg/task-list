@@ -2,16 +2,16 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header text-center">
-                    <!-- {{ __('Reset Password') }} -->
-                    パスワードを変更する
-                </div>
+    <div class="row justify-content-center mb-3">
+        <div class="m-5 col-11 col-md-8">
 
-                <div class="card-body">
-                    @if (session('status'))
+            <div class="py-4 bg-info">
+                <h4 class="text-center">パスワードを変更する</h4>
+            </div>
+
+            <div class="py-4 bg-light">
+                <div class="container mb-4">
+                        @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
@@ -39,7 +39,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-outline-dark">
                                     <!-- {{ __('Send Password Reset Link') }} -->
                                     パスワードを変更する
                                 </button>

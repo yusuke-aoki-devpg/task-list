@@ -1,9 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.subnav')
 
 @section('sub-nav-left')
-<div class="my-1" style="font-size: 1em;">
-    <a href="{{ route('todos.create') }}" class="btn-outline-light p-2"><i class="fas fa-plus-circle"></i> <span class="pc-only">新規<span> </a>   
-</div>
 <div id="changeView" class="my-1 mobile-only" style="font-size: 1em;">
     <a href="#" class="btn-outline-light p-2"><i class="fas fa-exchange-alt"></i></a>   
 </div>
@@ -16,20 +13,20 @@
 @endsection
 
 @section('content')
-<div id="msgContainer" class="text-right text-danger px-2 "></div>
+<div id="msgContainer" class="text-right text-danger px-2 bg-primary" style="display: block"></div>
 <div class="container">
         <div id="canvasContainer"></div>
         @foreach ($todos as $index => $todo)
         <div id="popup{{ $todo->id }}" class="popup" name="popup" style="display: none">
             <div class="popuptext">
-                <div class="p-1 text-white"> {{ $todo->todo }} </div>
+                <div class="p-1 text-white my-1"> {{ $todo->todo }} </div>
             </div>        
-            <div class="popuptext option">
-                <div><a class="text-white btn btn-sm" href=" {{ route('todos.edit', $todo->id)}} ">編集</a></div>　
+            <div class="popuptext option mb-2">
+                <div><a class="btn btn-sm btn-link text-white" href=" {{ route('todos.edit', $todo->id)}} ">編集</a></div>　
                 {!! Form::open(['route' => ['todos.destroy', $todo->id], 'method' => 'POST'])!!}
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
-                {{ Form::submit('削除', array('class'=>'text-white btn btn-sm','style' => 'background-color:transparent;')) }}
+                {{ Form::submit('削除', array('class'=>'btn btn-sm btn-link text-white')) }}
                 {!! Form::close() !!}
             </div>        
         </div>
@@ -37,18 +34,24 @@
 </div>
 
 <div id="listViewContainer"  class="mobile-only"  style="display: none">
-    <div class="container">
-        <table class="table">
+    <div class="container mt-2">
+        <table class="table text-dark">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 54%"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
             <tbody>
                 @foreach ($todos as $index => $todo)
-                @if ($todo->deadline->format("Y-m-d") === $dtoday)
-                    <tr style="background-color: rgb(240,119,110);">
-                @elseif($todo->deadline->format("Y-m-d") > $dtoday && $todo->deadline->format("Y-m-d") <= $d3DaysLater)
-                    <tr style="background-color: rgb(255,242,105);">
-                        @elseif($todo->deadline->format("Y-m-d") > $d3DaysLater && $todo->deadline->format("Y-m-d") <= $d7DaysLater)
-                        <tr style="background-color: rgb(170,250,170);">
-                            @endif
-                {{-- <tr class="bg-primary"> --}}
+                    @if ($todo->deadline->format("Y-m-d") === $dtoday)
+                        <tr style="background-color: rgba(231,32,100,255);">
+                    @elseif($todo->deadline->format("Y-m-d") > $dtoday && $todo->deadline->format("Y-m-d") <= $d3DaysLater)
+                        <tr style="background-color: rgba(251,192,13,255);">
+                    @elseif($todo->deadline->format("Y-m-d") > $d3DaysLater && $todo->deadline->format("Y-m-d") <= $d7DaysLater)
+                        <tr style="background-color: rgba(129,201,45,255);">
+                    @endif
 
                     <td>
                         <span>{{ $todo->todo }}</span>
@@ -56,11 +59,11 @@
                         <small value="deadline">{{ $todo->deadline->format('n月d日 H:i') }}</small>
                     </td>
 
-                    <td><a href="{{ route('todos.edit', $todo->id) }}" class="btn btn-sm" style="background-color:transparent;">編集</a></td>
+                    <td><a href="{{ route('todos.edit', $todo->id) }}" class="btn btn-sm btn-outline-dark">編集</a></td>
                     {!! Form::open(['route' => ['todos.destroy', $todo->id], 'method' => 'POST']) !!}
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
-                    <td>{{ Form::submit('削除', array('class'=>'btn btn-sm','style' => 'background-color:transparent;')) }}</td>
+                    <td>{{ Form::submit('削除', array('class'=>'btn btn-sm btn-outline-dark')) }}</td>
                     {!! Form::close() !!}
                 </tr>
                 @endforeach

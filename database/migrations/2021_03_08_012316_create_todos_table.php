@@ -15,10 +15,10 @@ class CreateTodosTable extends Migration
     {
         Schema::create('todos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id')->unsigned();
             $table->text('todo')->nullable(false);
             $table->dateTime('deadline')->nullable(false);
             $table->timestamps();
-            $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
@@ -32,8 +32,8 @@ class CreateTodosTable extends Migration
     {
         Schema::dropIfExists('todos');
 
-        Schema::table('todos', function (Blueprint $table) {
-            $table->dropColumn('user_id');
-        });
+        // Schema::table('todos', function (Blueprint $table) {
+        //     $table->dropColumn('user_id');
+        // });
     }
 }

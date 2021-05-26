@@ -2,13 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Console\Command;
-use App\Models\User;
 use App\Models\Todo;
-use Illuminate\Support\Facades\DB;
-use DateTime;
-//メール送信用ファサード
 use Illuminate\Support\Facades\Mail;
 
 class Batch extends Command

@@ -1,17 +1,11 @@
-@extends('layouts.app')
-
-@section('sub-nav-left')
-<div class="my-1 mobile-only" style="font-size: 1em;">
-    <a href="{{ route('todos.create') }}" class="btn-outline-light p-2"><i class="fas fa-plus-circle"></i> </a>
-</div>
-@endsection
+@extends('layouts.subnav')
 
 @section('content')
 <div class="container mt-5">
     <table class="table">
         <thead>
             <tr>
-                <th scope="col" style="width: 50%">Todo</th>
+                <th scope="col" style="width: 54%">Todo</th>
                 <th scope="col" class="pc-only">期限</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
@@ -21,7 +15,6 @@
             @foreach ($todos as $todo)
             <tr>
                 <td class="todo pc-only">{{ $todo->todo }}</td>
-                <!-- 表示の仕方を変える ->format('Y/m/d H:i') ------nは03→3---------------------------------------->
                 <td class="pc-only" value="deadline">{{ $todo->deadline->format('n月d日 H:i') }}</td>
 
                 <td class="mobile-only">
@@ -42,21 +35,4 @@
     </table>
     <div id="mytest"></div>
 </div>
-@endsection
-
-@section('extra-js')
-<script>
-    $(function() {
-        $('#date-time').bootstrapMaterialDatePicker({
-            format: 'YYYY-MM-DD HH:mm',
-            nowButton: true,
-            clearButton: true,
-            lang: 'ja',
-            cancelText: '×',
-            okText: '決定',
-            clearText: 'クリアー',
-            nowText: '現在'
-        });
-    });
-</script>
 @endsection
