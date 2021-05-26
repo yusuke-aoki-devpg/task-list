@@ -39,7 +39,7 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <span class="text-dark">
                         <i class="far fa-check-circle"></i>
-                        タスク管理
+                        Taskball
                     </span> 
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
